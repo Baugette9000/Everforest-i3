@@ -1,2 +1,3 @@
 # Everforest-i3
-i3 Everforest Config
+
+My Custom Rice for i3
