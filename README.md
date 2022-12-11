@@ -1,3 +1,3 @@
-#  Everforest-i3 
+# Everforest-i3
 
 My Custom Rice for i3
