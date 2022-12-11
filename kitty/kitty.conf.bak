@@ -1,0 +1,23 @@
+include current-theme.conf
+
+font_family      JetBrains Mono NL Bold
+bold_font        JetBrains Mono NL Bold
+italic_font      auto
+bold_italic_font auto
+font_size 10.6
+cursor_beam_thickness 1.8
+url_color #8ec07c
+url_style curly
+open_url_with firefox 
+enable_audio_bell no
+window_padding_width 12
+confirm_os_window_close -1
+background_opacity 1.0
+
+# execute programs 
+# editor vim 
+
+# BEGIN_KITTY_THEME
+# Gruvbox Dark Soft
+include current-theme.conf
+# END_KITTY_THEME
