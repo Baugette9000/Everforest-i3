@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+DIR="/home/cleo/.config"
+
+# File
+time=`date +%Y-%m-%d-%H-%M-%S`
+geometry=`xrandr | grep 'current' | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
+dir="`xdg-user-dir PICTURES`/Screenshots"
+file="Screenshot_${time}_${geometry}.png"
+
+# Commands
+rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
+
+# Buttons
+wiki=" ArchWiki"
+inspo=" Inspo"
+pin=" Pinterest"
+youtube=" Youtube"
+server=" ProxmoxVE"
+school=" School"
+music="Music"
+# take shots
+school () {
+    firefox --new-tab https://login-learn.k12.com
+}
+
+wiki () {
+	firefox --new-tab https://wiki.archlinux.org
+}
+
+youtube () {
+	firefox --new-tab https://youtube.com
+}
+
+server () {
+	firefox --new-tab https://192.168.86.25:8006/#v1:0:18:4:::::::
+}
+
+pin () {
+	firefox --new-tab https://pinterest.com
+}
+
+inspo () {
+	firefox --new-tab https://libreddit.spike.codes/r/unixporn
+}
+
+music () {
+    firefox --new-tab https://music.youtube.com
+}
+# Variable passed to rofi
+options="$wiki\n$inspo\n$pin\n$youtube\n$server\n$school"
+
+
+chosen="$(echo -e "$options" | $rofi_cmd -p 'Bookmarks' -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
+# chosen="$(echo -e "$options" | $rofi_cmd -p 'Select Bookmarks' -dmenu -fullscreen -selected-row 0)"
+case $chosen in
+    $wiki)
+		wiki
+        ;;
+    $inspo)
+		inspo
+        ;;
+    $pin)
+		pin
+		;;
+    $youtube)
+		youtube
+		;;
+    $server)
+		server
+        ;;
+    $school)
+        school
+        ;;
+esac
+
+@theme "/usr/share/rofi/themes/squared-everforest.rasi"
