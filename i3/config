@@ -20,7 +20,9 @@ font pango:JetBrains Mono NL Bold 8
 client.focused                  #4C3743         #4C3743         #4C3743         $coloratt       #4C3743
 client.focused_inactive         #231f20         #231f20         #231f20         $coloratt       #231f20
 client.unfocused                #231f20         #231f20         #231f20         $coloratt       #231f20
-
+client.placeholder              #231f20         #231f20         #231f20         $coloratt       #231f20
+client.urgent                   #E67E80         #E67E80         #E67E80         $coloratt       #E67E80
+client.background               #4C3743
 # i3 Gaps
 gaps inner 12
 gaps outer 1
@@ -68,16 +70,19 @@ bindsym $mod+c kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run
+
 bindsym $mod+d exec --no-startup-id rofi -show drun
 bindsym $mod+x exec --no-startup-id rofi -show p -modi p:~/.config/rofi/rofi-power-menu/rofi-power-menu
 bindsym $mod+Shift+s exec --no-startup-id ~/.config/rofi/screenshot
-bindsym $mod+Shift+m exec --no-startup-id kitty cmus
+bindsym $mod+Shift+m exec --no-startup-id kitty mocp
 bindsym $mod+Shift+o exec --no-startup-id kitty cava
 bindsym $mod+shift+i exec --no-startup-id kitty tty-clock -c -t
-bindsym $mod+Shift+v exec --no-startup-id kitty sudo vim ~/
+bindsym $mod+Shift+v exec --no-startup-id kitty nvim
 bindsym $mod+Shift+x exec betterlockscreen -l
 bindsym $mod+Shift+b exec --no-startup-id ~/.config/i3/custom/bookmarks
 bindsym $mod+b exec --no-startup-id firefox
+bindsym $mod+Shift+f exec --no-startup-id kitty ranger
+
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -183,10 +188,7 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym $mod+Right Mouse resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -216,8 +218,8 @@ bar {
 }
 
 # exec_always --no-startup-id nitrogen --restore
-exec_always --no-startup-id ~/.config/i3/picom.sh
+exec_always --no-startup-id  picom -b --animations --experimental-backends --animation-window-mass 0.5 --animation-for-open-window zoom --animation-stiffness 350
 exec_always --no-startup-id ~/.config/i3/polybar.sh
 exec_always --no-startup-id feh --bg-fill /usr/share/backgrounds/forest.jpg
-exec_always --no-startup-id betterlockscreen -u /home/cleo/wallpapers/misc/path.jpg
+exec --no-startup-id betterlockscreen -u /home/cleo/wallpapers/misc/path.jpg
 exec_always --no-startup-id i3bar --transparency #000000FF
