@@ -1,3 +1,3 @@
 # Everforest-i3
 
-My Custom Rice for i3
+Personal Rice for i3
