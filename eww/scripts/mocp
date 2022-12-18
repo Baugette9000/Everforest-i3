@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec alacritty --title "alacritty" --hold -e mocp
