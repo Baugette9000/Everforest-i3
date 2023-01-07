@@ -1,0 +1,15 @@
+{
+    "BDFDB": true,
+    "ZeresPluginLibrary": true,
+    "BetterAudioPlayer": true,
+    "BetterFormattingRedux": true,
+    "BetterInvites": true,
+    "DisableStickerSuggestions": true,
+    "FactOfTheDay": true,
+    "GoogleSearchReplace": true,
+    "GrammarCorrect": false,
+    "GuildProfile": false,
+    "RedditMentions": true,
+    "QuickToggler": false,
+    "StickerEmojiPreview": true
+}
