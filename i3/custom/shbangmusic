@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+DIR="/home/cleo/.config"
+
+# File
+time=`date +%Y-%m-%d-%H-%M-%S`
+geometry=`xrandr | grep 'current' | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
+dir="`xdg-user-dir PICTURES`/Screenshots"
+file="Screenshot_${time}_${geometry}.png"
+
+# Commands
+rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
+playing=" Playing $(playerctl metadata --format '{{title}}')"
+by=" By $(playerctl metadata --format '{{artist}}')"
+in=" In $(playerctl metadata --format '{{album}}')"
+
+# Buttons
+spotify=" Open Spotify"
+music=" Open Musikcube"
+
+# Cmd
+spotify () {
+    spotify
+}
+
+music () {
+    kitty musikcube
+}
+      
+
+options="$spotify\n$music"
+
+chosen=$(echo -e "$options" | $rofi_cmd -dmenu -i -selected-row 3 -lines 5 -hover-select -p "$playing 
+$by
+$in")
+
+case $chosen in
+    $spotify)
+        spotify
+        ;;
+     $music)
+        music
+        ;;
+esac
+

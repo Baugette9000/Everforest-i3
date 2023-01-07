@@ -171,11 +171,10 @@ get_title() {
     # the intention for using it is allowing the user to overwrite the
     # value on invocation.
     # shellcheck disable=3028,2039
-    hostname=${HOSTNAME:-${hostname:-$(hostname)}}
+    hostname=$(cat /etc/hostname)
 
     # If the hostname is still not found, fallback to the contents of the
     # /etc/hostname file.
-    [ "$hostname" ] || read -r hostname < /etc/hostname
 
     # Add escape sequences for coloring to user and host name. As we embed
     # them directly in the arguments passed to log(), we cannot use esc_p().
@@ -186,9 +185,9 @@ get_title() {
     esc SGR 1
     user=$user$e
     esc SGR 1
-    hostname=$e$hostname
+    hostname=$(cat /etc/hostname)
     esc SGR "3${PF_COL3:-1}"
-    hostname=$e$hostname
+    hostname=$(cat /etc/hostname)
 
     log "${user}@${hostname}" " " " " >&6
 }
@@ -416,7 +415,7 @@ get_host() {
             read -r version < /sys/devices/virtual/dmi/id/product_version
             read -r model   < /sys/firmware/devicetree/base/model
 
-            host="$name $version $model"
+            host="$(cat /etc/hostname)"
         ;;
 
         (Darwin* | FreeBSD* | DragonFly*)

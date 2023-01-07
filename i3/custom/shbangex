@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+DIR="/home/cleo/.config"
+
+# File
+time=`date +%Y-%m-%d-%H-%M-%S`
+geometry=`xrandr | grep 'current' | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
+dir="`xdg-user-dir PICTURES`/Screenshots"
+file="Screenshot_${time}_${geometry}.png"
+
+# Commands
+rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
+
+# Buttons
+leave=" Leave"
+stay=" Stay"
+# take shots
+leave () {
+  i3-msg exit
+}
+
+stay () {
+    pkill rofi
+}
+# Variable passed to rofi
+options="$leave\n$stay"
+
+
+chosen="$(echo -e "$options" | $rofi_cmd -p " You've pressed exit.. Leave?" -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
+# chosen="$(echo -e "$options" | $rofi_cmd -p 'Select Bookmarks' -dmenu -fullscreen -selected-row 0)"
+case $chosen in
+    $leave)
+		leave
+        ;;
+    $stay)
+        stay
+        ;;
+esac
+
+@theme "/usr/share/rofi/themes/squared-everforest.rasi"

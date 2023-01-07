@@ -13,13 +13,23 @@ rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
 
 # Buttons
 wiki=" ArchWiki"
+github=" Github"
 inspo=" Inspo"
 pin=" Pinterest"
 youtube=" Youtube"
 server=" ProxmoxVE"
 school=" School"
 music="Music"
+mtype=" TypingTests"
 # take shots
+github () {
+    firefox --new-tab https://github.com
+}
+
+mtype () {
+    exec $HOME/.config/i3/custom/keebshet
+}
+
 school () {
     firefox --new-tab https://login-learn.k12.com
 }
@@ -48,10 +58,10 @@ music () {
     firefox --new-tab https://music.youtube.com
 }
 # Variable passed to rofi
-options="$wiki\n$inspo\n$pin\n$youtube\n$server\n$school"
+options="$wiki\n$inspo\n$pin\n$youtube\n$school\n$mtype"
 
 
-chosen="$(echo -e "$options" | $rofi_cmd -p 'Bookmarks' -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
+chosen="$(echo -e "$options" | $rofi_cmd -p ' Bookmarks' -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
 # chosen="$(echo -e "$options" | $rofi_cmd -p 'Select Bookmarks' -dmenu -fullscreen -selected-row 0)"
 case $chosen in
     $wiki)
@@ -65,12 +75,15 @@ case $chosen in
 		;;
     $youtube)
 		youtube
-		;;
-    $server)
-		server
         ;;
     $school)
         school
+        ;;
+    $mtype)
+        mtype
+        ;;
+    $github)
+        github
         ;;
 esac
 

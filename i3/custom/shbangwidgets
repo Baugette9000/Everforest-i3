@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+DIR="/home/cleo/.config"
+
+# File
+time=`date +%Y-%m-%d-%H-%M-%S`
+geometry=`xrandr | grep 'current' | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
+dir="`xdg-user-dir PICTURES`/Screenshots"
+file="Screenshot_${time}_${geometry}.png"
+
+# Commands
+rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
+
+# Buttons
+cal="Left Menu"
+menu=" Menu"
+music=" Stats"
+close=" Close-all"
+# take shots
+cal () {
+  eww open-many leftbg calendar
+}
+
+menu () {
+  eww open-many leftbg profileleft calendar sysctl musicfore statslef
+}
+
+close () {
+    eww close-all
+}
+
+music () {
+    eww open stats 
+}
+# Variable passed to rofi
+options="$menu\n$music\n$close"
+
+
+chosen="$(echo -e "$options" | $rofi_cmd -p ' Eww Widgets' -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
+# chosen="$(echo -e "$options" | $rofi_cmd -p 'Select Bookmarks' -dmenu -fullscreen -selected-row 0)"
+case $chosen in
+    $cal)
+		cal
+        ;;
+    $menu)
+        menu
+        ;;
+    $music)
+        music
+        ;;
+    $close)
+        close
+        ;;
+esac
+
+@theme "/usr/share/rofi/themes/squared-everforest.rasi"

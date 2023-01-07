@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+DIR="/home/cleo/.config"
+
+# File
+time=`date +%Y-%m-%d-%H-%M-%S`
+geometry=`xrandr | grep 'current' | head -n1 | cut -d',' -f2 | tr -d '[:blank:],current'`
+dir="`xdg-user-dir PICTURES`/Screenshots"
+file="Screenshot_${time}_${geometry}.png"
+
+# Commands
+rofi_cmd="rofi -theme /usr/share/rofi/themes/squared-everforest.rasi"
+
+# Buttons
+ttype=" Quotes"
+mtype=" Monkeytype"
+ntype=" Typing.Works"
+gtype=" Short Words"
+# take shots
+ntype () {
+    firefox --new-tab https://typing.works/
+}
+
+ttype () { 
+    firefox --new-tab https://new.typing.works/
+}
+
+mtype () {
+    firefox --new-tab https://monkeytype.com
+}
+
+gtype () {
+    firefox --new-tab https://typings.gg/
+}
+
+# Variable passed to rofi
+options="$mtype\n$ntype\n$gtype\n$ttype"
+
+
+chosen="$(echo -e "$options" | $rofi_cmd -p '  Typing Tests' -dmenu -selected-row 0 -lines 5 -eh 1 -width 100 -padding 400 -opacity -bw 0 -fullscreen true "85")"
+# chosen="$(echo -e "$options" | $rofi_cmd -p 'Select Bookmarks' -dmenu -fullscreen -selected-row 0)"
+case $chosen in
+      $mtype)
+        mtype
+        ;;
+      $ttype)
+        ttype
+        ;;
+      $ntype)
+        ntype
+        ;;
+      $gtype)
+        gtype
+        ;;
+esac
+
+@theme "/usr/share/rofi/themes/squared-everforest.rasi"
