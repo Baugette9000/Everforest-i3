@@ -40,7 +40,7 @@ elif [[ "$1" == "--vb" ]]; then
 	close_dash && virtualbox &
 
 elif [[ "$1" == "--mc" ]]; then
-    close_dash && eww close-all && kitty --class 'kitty-float' -e mocp & 
+    close_dash && eww close-all && kitty --class 'kitty-float' -e musikcube & 
 
 elif [[ "$1" == "--wt" ]]; then
     close_dash && eww close-all && kitty --class 'kitty-float' --hold -e curl wttr.in & 
@@ -49,9 +49,40 @@ elif [[ "$1" == "--ra" ]]; then
     close_dash && eww close-all && kitty --class 'kitty-float' --hold -e ranger ~/ &
 
 elif [[ "$1" == "--rst" ]]; then
-    close_dash && eww close-all && i3 restart &
+    close_dash && eww close-all
 
 elif [[ "$1" == "--vi" ]]; then 
     close_dash && eww close-all && kitty --hold -e nvim
 
+elif [[ "$1" == "--musctl1" ]]; then
+    close_dash && playerctl play-pause
+
+elif [[ "$1" == "--musctl2" ]]; then
+    close_dash && playerctl next
+
+elif [[ "$1" == "--musctl3" ]]; then
+    close_dash && playerctl previous
+
+elif [[ "$1" == "--musicclose" ]]; then
+    close_dash && eww close-all 
+
+elif [[ "$1" == "--musicspot" ]]; then
+    close_dash && eww close-all && LD_PRELOAD=/usr/local/lib/spotify-adblock.so spotify
+
+elif [[ "$1" == "--musicterm" ]]; then
+    close_dash && eww close-all && kitty --class 'kitty-float' --hold -e musikcube
+
+elif [[ "$1" == "--timedunst" ]]; then
+    eww close-all && notify-send " The forest calls .*  " " $(uptime -p)  "
+elif [[ "$1" == "--lock" ]]; then 
+    /home/cleo/.config/i3/custom/lock
+
+elif [[ "$1" == "--reload" ]]; then 
+    i3 restart
+
+elif [[ "$1" == "--pow" ]]; then 
+    rofi -show p -modi p:~/.config/rofi/rofi-power-menu/rofi-power-menu
+
+elif [[ "$1" == "--date" ]]; then 
+    date +"Today is, %a %b %d"
 fi

@@ -6,19 +6,26 @@
 
 ;; ** Variables ***********************************************************************
 
-;; Reboot vars
+;; stats 
+(defpoll ramPerc :interval "10s"  "scripts/sys_info --mem")
+(defpoll ram :interval "1s" "free | awk -v RS=\"\" '{ printf \"%.2f\\n\", $9/1024/1024 }'")
+(defpoll cpu :interval "1s"  "scripts/sys_info --cpu")
+(defpoll bat :interval "1s"  "scripts/sys_info --bat")
+(defpoll batIcon :interval "1s"  "scripts/sys_info --baticon")
+(defpoll bright :interval "1s"  "scripts/sys_info --bli")
+(defpoll brightIcon :interval "1s"  "scripts/sys_info --bliicon")
+(defpoll vol :interval "1s"  "scripts/sys_info --vol")
+(defpoll volIcon :interval "1s"  "scripts/sys_info --volicon")
+(defpoll temp :interval "1s" "scripts/sys_info --temp")
+(defpoll tempIcon :interval "10s" "scripts/sys_info --tempicon")
+(defpoll CPU :interval "10s" "scripts/sys_info --CPU")
 
 ;; Profile vars
-(defvar IMAGE "images/profile.jpg")
-(defvar NAME "YOUR NAME")
-(defpoll UNAME :interval "5m" `whoami`)
-
-;; System vars
-(defpoll HOST :interval "5s" `hostname`)
-(defpoll CPU_USAGE :interval "1s" `scripts/sys_info --cpu`)
-(defpoll MEM_USAGE :interval "1s" `scripts/sys_info --mem`)
-(defpoll BLIGHT :interval "1s" `scripts/sys_info --blight`)
-(defpoll BATTERY :interval "5s" `scripts/sys_info --bat`)
+(defvar IMAGE "images/azumaril.png")
+(defvar NAME "Welcome, Cleo!")
+(defpoll UNAME :interval "5m" `cat /etc/hostname`)
+(defpoll HELLO :interval "1s" `/home/cleo/scripts/shtime.sh`)
+(defpoll DATE :interval "1s" `scripts/open_apps --date`)
 
 ;; Time vars
 (defpoll HOUR :interval "5s" `date +\"%I\"`)
@@ -38,6 +45,9 @@
 (defpoll COVER :interval "1s" `scripts/music_info --cover`)
 (defpoll CTIME :interval "1s" `scripts/music_info --ctime`)
 (defpoll TTIME :interval "1s" `scripts/music_info --ttime`)
+(defpoll PLAYING :interval "1s" `scripts/music_info --curl`)
+(defpoll PLAYNAME :interval "1s" `scripts/music_info --name`)
+(defpoll BUN :interval "1s" `scripts/open_apps --bun`)
 
 ;; Weather vars
 (defpoll ICON :interval "15m" `scripts/weather_info --icon`)
@@ -55,6 +65,224 @@
 
 
 ;; ** Widgets *************************************************************************
+
+;; stat left bar
+(defwidget statslef[]
+  (box :class "bg" :orientation "h" :space-evenly "true" :valign "top" :halign "center"
+    (box :class "cpu-container" :halign "center" :valign "top"
+      (overlay
+        (circular-progress :class "cpu-progress" :start-at "0" :value "${cpu}" :thickness "64" :halign "center")
+        (circular-progress :class "cpu-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "cpu-icon" :text VOLICON :halign "center" :onclick "scripts/getVol.sh -m")
+          (label :class "cpu-label" :text VOL :halign "center" :onclick "scripts/getVol.sh -m" ))))
+
+(box :class "bg" :orientation "v" :space-evenly "true" :valign "center" :halign "center"
+    (box :class "cpu-container" :halign "center" :valign "center"
+      (overlay
+        (circular-progress :class "cpu-progress" :start-at "0" :value "${cpu}" :thickness "64" :halign "center")
+        (circular-progress :class "cpu-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "cpu-icon" :text " " :halign "center")
+          (label :class "cpu-label" :text CPU :halign "center"))))
+
+    (box :class "mem-container" :halign "center" :valign "center"
+      (overlay
+        (circular-progress :class "mem-progress" :start-at "0" :value "${ramPerc}" :thickness "64" :halign "center")
+        (circular-progress :class "mem-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "mem-icon" :text " " :halign "center")
+          (label :class "mem-label" :text " ${ram}Gb" :halign "center")))))))
+
+
+(defwindow statslef :monitor 0 :wm-ignore true :hexpand "false" :vexpand "false" :windowtype "dock" :stacking "fg"
+    :geometry (geometry :x "15" :y "715" :height "170" :width "50" )
+            (statslef))
+
+
+;; Stat Widget
+(defwidget stats[]
+  (box :class "stats-container" :orientation "v" :space-evenly "true" :valign "center" :halign "center"
+    (box :class "cpu-container" :halign "center" :valign "center"
+      (overlay
+        (circular-progress :class "cpu-progress" :start-at "0" :value "${cpu}" :thickness "64" :halign "center")
+        (circular-progress :class "cpu-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "cpu-icon" :text " " :halign "center")
+          (label :class "cpu-label" :text CPU :halign "center"))))
+    (box :class "mem-container" :halign "center" :valign "center"
+      (overlay
+        (circular-progress :class "mem-progress" :start-at "0" :value "${ramPerc}" :thickness "64" :halign "center")
+        (circular-progress :class "mem-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "mem-icon" :text " " :halign "center")
+          (label :class "mem-label" :text " ${ram}Gb" :halign "center"))))
+    (box :class "temp-container" :halign "center" :valign "center"
+      (overlay
+        (circular-progress :class "temp-progress" :start-at "0" :value "${temp/1000}" :thickness "64" :halign "center")
+        (circular-progress :class "temp-background" :value "100" :start-at "0" :thickness "60" :halign "center")
+        (box :orientation "h" :space-evenly "false" :halign "center"
+          (label :class "temp-icon" :text "${tempIcon}" :halign "center")
+          (label :class "temp-label" :text " ${temp/1000}°C" :halign "center"))))))
+
+;; Stats window
+(defwindow stats :monitor 0 :wm-ignore true :hexpand "false" :vexpand "false" :windowtype "dock" :stacking "fg"
+    :geometry (geometry :x "-6" :y "0" :height "170" :width "50" :anchor "center right")
+        (stats))
+
+;; leftbar ctl 
+(defwidget leftctl []
+    (box :class "bg" :orientation "h" :spacing 5 :space-evenly "false" :vexpand "false" :hexpand "false"
+    (label :class "bg" :halign "left" :wrap "false" :limit-width 100 :text "     ")
+    (button :class "lock" :halign "center" :onclick "scripts/open_apps --lock" "   " )
+    (button :class "reload" :halign "center" :onclick "scripts/open_apps --reload" "")
+    (label :class "bg" :orientation "h" :halign "center" :wrap "false" :limit-width 100 :text "               ")
+    (button :class "close" :halign "center" :onclick "scripts/open_apps --rst" "  ")
+    (button :class "pow" :halign "center" :onclick "scripts/open_apps --pow" " ")
+))
+
+(defwindow sysctl :stacking "fg" :focusable "false" :screen 1 
+        :geometry (geometry :x 380 :y 320 :width 387 :height 110)
+                            (leftctl))
+
+
+;; profile leftbar
+(defwidget profileleft [] 
+    (box :class "musicfore" :orientation "v" :spacing 10 :space-evenly "false" :vexpand "false" :hexpand "false"
+            (box :style "background-image: url('${IMAGE}');" :class "face" :halign "center")
+            (label :class "fullname" :halign "center" :wrap "true" :limit-width 100 :text "               Cleo   
+            
+")))
+
+(defwindow profileleft :stacking "fg" :focusable "false" :screen 1 
+        :geometry (geometry :x 15 :y 70 :width 350 :height 360)
+                            (profileleft))
+
+
+;; left bar 
+(defwidget leftbg []
+    (box :class "genwin")
+)
+
+(defwindow leftbg :stacking "bg" :focusable "false" :screen 1
+        :geometry (geometry :x 0 :y 60 :width 780 :height 1000 )
+                            (leftbg))
+
+;; calendar background
+(defwidget calfg []
+    (box :class "calfg")
+)
+
+(defwindow calendarfg :stacking "bg" :focusable "false" :screen 1
+        :geometry (geometry :x 1627 :y 55 :width 365 :height 220 )
+                            (calfg))
+
+;; bun 
+(defwidget bun []
+    (box :class "bg"
+    (label :class "playing" :halign "center" :wrap "true" :limit-width 100 :text BUN
+)))
+
+(defwindow bun :stacking "fg" :focusable "false" :screen 1
+        :geometry (geometry :x 715 :y 790 :width 280 :height 150)
+                            (bun))
+
+;; greeter 
+(defwidget greeter []
+    (box :class "bg" :orientation "v"
+    (label :class "playing" :halign "center" :wrap "true" :limit-width 100 :text HELLO)))
+
+(defwindow greeter :stacking "fg" :focusable "false" :screen 1
+        :geometry (geometry :x 725 :y 790 :width 480 :height 180)
+                            (greeter))
+
+;; calendar widget
+(defwidget cal [] 
+  (calendar :halign "center" :valign "center" :class "cal" :month 12 :year 2022))
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x 380
+                      :y 70
+                      :width "390px"
+                      :height "155px"
+                      :anchor "top left")
+(cal))
+
+;; musicinfo
+(defwidget musicinfo []
+    (box :orientation "v" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
+        (label :halign "center" :class "playing" :wrap "true" :limit-width 40 :text PLAYING)))
+
+(defwindow musicinfo :stacking "fg" :focusable "false" :screen 1
+        :geometry (geometry :x 945 :y 120 :width 400 :height 55)
+                    (musicinfo))
+
+
+;; musicctl 1
+(defwidget musctl1 [] 
+    (box :class "musctl1" :vexpand "false" :hexpand "false" 
+        (button :class "btn_ctl1" :onclick "scripts/open_apps --musctl1" " " )))
+
+(defwindow musicctl1 :stacking "fg" :focusable "false" :screen 1 
+	    :geometry (geometry :x 1105 :y 240 :width 80 :height 55)
+					(musctl1))
+
+;; musicctl 2
+(defwidget musctl2 [] 
+    (box :class "musctl2" :vexpand "false" :hexpand "false" 
+        (button :class "btn_ctl2" :onclick "scripts/open_apps --musctl2" "怜" )))
+
+(defwindow musicctl2 :stacking "fg" :focusable "false" :screen 1 
+        :geometry (geometry :x 1185 :y 240 :width 80 :height 55)
+                            (musctl2))
+
+;; musicctl 3
+(defwidget musctl3 [] 
+    (box :class "musctl3" :vexpand "false" :hexpand "false" 
+        (button :class "btn_ctl3" :onclick "scripts/open_apps --musctl3" "玲" )))
+
+(defwindow musicctl3 :stacking "fg" :focusable "false" :screen 1 
+        :geometry (geometry :x 1010 :y 240 :width 80 :height 55)
+                            (musctl3))
+
+
+;; musicfore
+(defwidget musicfore [] 
+    (box :class "sep" :orientation "v" :spacing 35 :space-evenly "false" :vexpand "false" :hexpand "false"
+        (label :class "sep" :halign "center" :wrap "true" :limit-width 9 :text "")
+    (box :class "playing" :orientation "v" :spacing 10 :space-evenly "true" :vexpand "true" :hexpand "true" 
+        (label :class "playing" :halign "right" :wrap "true" :limit-width 100 :text PLAYING )
+    (box :orientation "h" :spacing 25 :halign "left" :space-evenly "false" :vexpand "true" :hexpand "true"
+        (label :class "sepr" :halign "left" :wrap "false" :limit-width 1 :text " ")
+        (button :class "btn_ctl3" :onclick "scripts/open_apps --musctl3" "玲")
+    (box :orientation "h" :spacing 10 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false" 
+        (button :class "btn_ctl1" :onclick "scripts/open_apps --musctl1" " " )
+    (box :orientation "h" :spacing 0 :halign "right" :space-evenly "false" :vexpand "true" :hexpand "true"
+        (button :class "btn_ctl2" :onclick "scripts/open_apps --musctl2" "怜")))))))
+  
+
+            (defwindow musicfore :stacking "bottom" :focusable "true" :screen 1
+                :geometry (geometry :x 15 :y 440 :width 750 :height 260)
+                                    (musicfore))
+
+;; musicplay 
+(defwidget musicplay []
+    (box :class "playname" :orientation "h" :spacing 10 :space-evenly "false" :vexpand "false" :hexpand "false"
+    (label :class "playname" :halign "left" :wrap "false" :limit-width 40 :text PLAYNAME )))
+
+(defwindow musicplay :stacking "fg" :focusable "false" :screen 1
+        :geometry (geometry :x 777 :y 730 :width 50 :height 50 )
+                  (musicplay))
+
+;; musicback
+(defwidget musicback []
+    (box :class "musicback")
+)
+
+(defwindow musicback :stacking "bg" :focusable "false" :screen 1
+        :geometry (geometry :x 877 :y 45 :width 560 :height 300 )
+                            (musicback))
 
 ;; border 
 (defwidget border []
@@ -77,7 +305,7 @@
                 (button :class "btn_bottomclass1" :onclick "scripts/open_apps --rst" "勒 " )))
 
 (defwindow bottom :stacking "fg" :focusable "false" :screen 1 
-        :geometry (geometry :x 1222 :y 555 :width 325 :height 155)
+        :geometry (geometry :x 1222 :y 565 :width 325 :height 155)
                             (bottom))
 
 ;; vim
@@ -86,7 +314,7 @@
                 (button :class "btn_vim" :onclick "scripts/open_apps --vi" "  " )))
 
 (defwindow vim :stacking "fg" :focusable "false" :screen 1 
-        :geometry (geometry :x 1222 :y 385 :width 325 :height 155)
+        :geometry (geometry :x 1222 :y 395 :width 325 :height 155)
                             (vim))
 
 
@@ -96,7 +324,7 @@
                 (button :class "btn_ranger" :onclick "scripts/open_apps --ra" " " )))
 
 (defwindow ranger :stacking "fg" :focusable "false" :screen 1 
-        :geometry (geometry :x 1222 :y 220 :width 155 :height 155)
+        :geometry (geometry :x 1222 :y 230 :width 155 :height 155)
                             (ranger))
 
 
@@ -107,27 +335,10 @@
 
 ;; profile
 (defwidget user [] 
-	(box :class "genwin" :orientation "v" :spacing 35 :space-evenly "false" :vexpand "false" :hexpand "false"
+	(box :class "musicfore" :orientation "v" :spacing 35 :space-evenly "false" :vexpand "false" :hexpand "false"
 		(box :style "background-image: url('${IMAGE}');" :class "face" :halign "center")
 		(label :class "fullname" :halign "center" :wrap "true" :limit-width 25 :text NAME)
 		(label :class "username" :halign "center" :wrap "true" :limit-width 25 :text UNAME)))
-
-;; system
-(defwidget system [] 
-	(box :class "genwin" :vexpand "false" :hexpand "false" 
-		(box :orientation "v" :spacing 35 :halign "center" :valign "center" :space-evenly "false" :vexpand "false" :hexpand "false" 
-			(box :class "cpu_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
-				(label :class "iconcpu" :text "")
-				(scale :min 0 :max 100 :value CPU_USAGE :active "false"))
-			(box :class "mem_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
-				(label :class "iconmem" :text "")
-				(scale :min 0 :max 100 :value MEM_USAGE :active "false"))
-			(box :class "bright_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
-				(label :class "iconbright" :text "")
-				(scale :min 0 :max 100 :value BLIGHT :active "false"))
-			(box :class "bat_bar" :orientation "h" :spacing 20 :space-evenly "false" :vexpand "false" :hexpand "false" 
-				(label :class "iconbat" :text "")
-				(scale :min 0 :max 100 :value BATTERY :active "false")))))
 
 ;; clock
 (defwidget clock [] 
@@ -143,7 +354,7 @@
 (defwidget uptime [] 
 	(box :class "genwin" 
 		(box :orientation "h" :halign "center" :spacing 40 :space-evenly "false" :vexpand "false" :hexpand "false" 
-			(label :class "icontimer" :valign "center" :text "")
+			(label :class "icontimer" :valign "center" :text "" :onclick "scripts/open_apps --timedunst")
 			(box :orientation "v" :valign "center" :spacing 0 :space-evenly "false" :vexpand "false" :hexpand "false" 
 				(label :class "uphour" :halign "start" :wrap "true" :limit-width 25 :text UPHOUR)
 				(label :class "upmin" :halign "start" :wrap "true" :limit-width 25 :text UPMIN)))))
@@ -270,18 +481,18 @@
 
 ;; curlwttr
 (defwindow curlwttr :stacking "fg" :focusable "false" :screen 1 
-         :geometry (geometry :x 1390  :y 220  :width 155 :height 155)
+         :geometry (geometry :x 1390  :y 230  :width 155 :height 155)
                             (curlwttr))
 
 ;; border
 (defwindow border :stacking "bg" :focusable "false" :screen 1
-        :geometry (geometry :x 1200 :y 35 :width 710 :height 670)
+        :geometry (geometry :x 1200 :y 45 :width 710 :height 660)
                             (border))
 
 
 ;; back
 (defwindow back :stacking "bg" :focusable "false" :screen 1
-        :geometry (geometry :x 1210 :y 45 :width 690 :height 680)
+        :geometry (geometry :x 1210 :y 55 :width 690 :height 680)
                     (back))
 
 ;; background
@@ -291,12 +502,12 @@
 
 ;; profile
 (defwindow profile :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 150 :y 150 :width 350 :height 440)
+	    :geometry (geometry :x 765 :y 350 :width 350 :height 420)
 					(user))
 
 ;; system
 (defwindow system :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 150 :y 605 :width 350 :height 325)
+	    :geometry (geometry :x 604 :y 605 :width 350 :height 325)
 					(system))
 
 ;; clock
@@ -306,7 +517,7 @@
 
 ;; uptime
 (defwindow uptime :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 1555 :y 56 :width 330 :height 155)
+	    :geometry (geometry :x 1555 :y 66 :width 330 :height 155)
 					(uptime))
 
 ;; music
@@ -361,15 +572,21 @@
 
 ;; reboot
 (defwindow reboot :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 1390 :y 56 :width 155 :height 155)
+	    :geometry (geometry :x 1390 :y 66 :width 155 :height 155)
 					(reboot))
 
 ;; poweroff
 (defwindow poweroff :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 1222 :y 56 :width 155 :height 155)
+	    :geometry (geometry :x 1222 :y 66 :width 155 :height 155)
 					(poweroff))
 
 ;; folders
 (defwindow folders :stacking "fg" :focusable "false" :screen 1 
-	    :geometry (geometry :x 1554 :y 220 :width 330 :height 490)
+	    :geometry (geometry :x 1554 :y 230 :width 330 :height 490)
 					(folders))
+
+;; Volume var
+(defpoll VOL :interval "1s" `scripts/getVol.sh --vol`)
+(defpoll VOLICON :interval "1s" `scripts/getVol.sh --icon`)
+
+

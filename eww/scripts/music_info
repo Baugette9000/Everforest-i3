@@ -5,6 +5,7 @@ STATUS="$(mpc status)"
 COVER="/tmp/.music_cover.jpg"
 MUSIC_DIR="$HOME/Music"
 
+
 ## Get status
 get_status() {
 	if [[ $STATUS == *"[playing]"* ]]; then
@@ -73,6 +74,10 @@ get_cover() {
 	fi
 }
 
+get_nowplaying() {
+    PLAYING=$playerctl metadata --format "{{ artist }} - {{ title }}"
+}
+
 ## Execute accordingly
 if [[ "$1" == "--song" ]]; then
 	get_song
@@ -94,4 +99,11 @@ elif [[ "$1" == "--next" ]]; then
 	{ mpc -q next; get_cover; }
 elif [[ "$1" == "--prev" ]]; then
 	{ mpc -q prev; get_cover; }
+
+elif [[ "$1" == "--curl" ]]; then
+    playerctl metadata --format "{{ artist }} - {{ title }}"
+elif [[ "$1" == "--name" ]]; then 
+    playerctl metadata --format "{{ status }}"
+elif [[ "$1" == "--bun" ]]; then 
+    /home/cleo/scripts/bunnyfetch
 fi

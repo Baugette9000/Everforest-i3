@@ -7,6 +7,157 @@
 }
 
 /** Background ***************************************/
+.pow {
+    background-color: #2d353b;
+    margin: 12px 30px 10px 2px;
+    color: #E67E80;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 44px;
+    font-weight: bold;
+}
+
+.close {
+    background-color: #2D353B;
+    margin: 10px 10px 6px 40px;
+    color: #E69875;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.lock {
+    background-color: #2D353B;
+    margin: 10px 6px 6px 50px;
+    color: #DBBC7F;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.reload {
+    background-color: #2D353B;
+    margin: 10px 6px 6px 5px;
+    color: #D699B6;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.calfg {
+    background-color: #232A2E;
+}
+
+
+.calbg {
+    background-color: #4C3743;
+}
+
+.cal {
+  background-color: #2D353B;
+  color: #a7c080;
+  padding: 10px;
+  padding-bottom: 0px;
+  padding-left: 17px;
+  padding-right: 12px;
+}
+
+
+.btn_musicterm {
+     background-color: #232A2E;
+     margin: 10px 6px 6px 15px;
+     color: #7FBBB3;
+     font-family: Jetbrains Mono Nerd Font;
+     font-size: 30px;
+     font-weight: bold;
+}
+
+.btn_musicspot {
+     background-color: #232A2E;
+     margin: 10px 6px 6px 15px;
+     color: #DBBC7F;
+     font-family: Jetbrains Mono Nerd Font;
+     font-size: 30px;
+     font-weight: bold;
+}
+
+.btn_musicclose {
+     background-color: #232A2E;
+     margin: 10px 6px 6px 15px;
+     color: #E67E80;
+     font-family: Jetbrains Mono Nerd Font;
+     font-size: 30px;
+     font-weight: bold;
+}
+.playname {
+    background-color: #7FBBB3;
+    margin: 10px 6px 6px 15px;
+    color: #EBDBB2;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.greet {
+    background-color: #2D353B;
+    margin: 10px 10px 6px 0px;
+    color: #EBDBB2;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 25px;
+    font-weight: bold;
+}
+                        
+.playing {
+    background-color: #2D353B;
+    margin: 10px 6px 6px 0px;
+    color: #EBDBB2;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.btn_ctl3 {
+    background-color: #2D353B;
+    margin: 10px 6px 6px 15px;
+    color: #EBDBB2;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.btn_ctl2 {
+    background-color: #2D353B;
+    margin: 10px 6px 6px 15px;
+    color: #EBDBB2;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.sep {
+    min-width: 100px;
+}
+
+.sepr {
+    min-width: 215px;
+}
+
+.btn_ctl1 {
+     background-color: #2D353B;
+     margin: 10px 6px 6px 15px;
+     color: #A7C080;
+     font-family: Jetbrains Mono Nerd Font;
+     font-size: 48px;
+     font-weight: bold;
+}
+
+.musicfore {
+    background-color: #2D353B;
+}
+
+.musicback {
+    background-color: #4C3743;
+}
+
 .border {
     background-color: #4C3743;
     background-size: 710px;
@@ -55,15 +206,14 @@
 }
 
 .bg {
-	background-image: url("images/bg.png");
-	background-color: #474D59;
+	background-color: #2D353B;
 	opacity: 1;
 }
 
 /** Generic window ***********************************/
 .genwin {
-	background-color: #2D353B;
-	border-radius: 16px;
+	background-color: #232A2E;
+	border-radius: 0px 10px 10px 0px;
 }
 
 /** Profile ******************************************/
@@ -179,6 +329,19 @@
 }
 
 /** Music ***************************************/
+.nowplaying {
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    color: #EBDBB2;
+    font-weight: bold;
+}
+
+.songprev { 
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 48px;
+    font-weight: bold;
+}
+
 .album_art {
 	background-size: 240px;
 	min-height: 240px;
@@ -427,6 +590,161 @@
 }
 .label_folder6 {
 	color: #83C092;
+}
+
+/** EXTRA ***********************************************/
+$color-white0: #D3C6AA;
+$color-white1: #D3C6AA;
+$color-white2: #D3C6AA;
+$color-gray: #425047;
+$color-black0: #2D353B;
+$color-black1: #232A2E;
+$color-blue: #A7C080;
+
+* {
+    all: unset;
+}
+
+.welcome-container {
+    background-color: $color-black0;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.welcome-greeting {
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 24px;
+    color: $color-white0;
+}
+
+.welcome-name {
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 18px;
+    color: $color-white2;
+}
+
+.music-container {
+    background-color: $color-black0;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.music-art-container {
+    margin: 10px;
+    padding: 10px;
+}
+
+.music-track highlight {
+    background-color: $color-blue;
+    border-radius: 24px;
+}
+
+.music-track trough {
+    border-radius: 16px;
+    background-color: $color-gray;
+    min-height: 5px;
+    min-width: 400px;
+}
+
+.music-sub-container {
+    margin: 20px;
+    padding: 20px;
+}
+
+.music-control-container {
+    margin: 10px;
+    padding: 5px;
+    background-color: $color-black1;
+    border-radius: 10px;
+}
+
+.music-prev-button, .music-toggle-button, .music-next-button {
+    margin: 0px 10px;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 32px;
+    color: $color-white0;
+}
+
+.music-info-container {
+    margin: 10px;
+}
+
+.music-title {
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 16px;
+    color: $color-blue;
+}
+
+.music-artist {
+    font-family: Iosevka Nerd Font;
+    font-size: 12px;
+    color: $color-white2;
+}
+
+.volume-container {
+    background-color: $color-black0;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.volume-scale highlight {
+    background-color: $color-blue;
+    border-radius: 24px;
+}
+
+.volume-scale trough {
+    border-radius: 16px;
+    background-color: $color-gray;
+    min-height: 120px;
+    min-width: 10px;
+}
+
+.volume-icon {
+    font-family: Jetrains Mono Nerd Font;
+    font-size: 20px;
+    color: $color-white0;
+}
+
+.stats-container {
+    background-color: $color-black0;
+    border-radius: 10px;
+}
+
+.cpu-container, .mem-container, .temp-container, .bright-container, .bat-container {
+    background-color: $color-black1;
+    border-radius: 40px 0px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.cpu-background, .mem-background, .temp-background, .bright-background, .bat-background {
+    color: $color-black1;
+}
+
+.cpu-progress, .mem-progress, .temp-progress, .bright-progress, .bat-progress {
+    color: $color-gray;
+}
+
+.cpu-icon, .mem-icon, .bright-icon, .bat-icon {
+    margin-right: 5px;
+    font-family: Jetrains Mono Nerd Font;
+    font-size: 32px;
+    color: $color-blue;
+}
+
+.temp-icon {
+    margin-right: 5px;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 32px;
+    color: $color-blue;
+}
+
+.cpu-label, .mem-label, .temp-label, .bright-label, .bat-label {
+    margin-left: 5px;
+    font-family: Jetbrains Mono Nerd Font;
+    font-size: 16px;
+    color: $color-white0;
 }
 
 /** EOF *************************************************/
